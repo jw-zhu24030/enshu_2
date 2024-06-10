@@ -9,15 +9,21 @@
     <section>
         <h3>ログイン</h3>
         <form action="login.php" method="post">
-            <p>
-                名前：　　　<input type="text" name = "name" value="">
-            </p>
-            <p>
-                パスワード：<input type="password" name = "pass" value="">
-            </p>
-            <p>
-                <input type="submit" name="submit1" value="ログイン">
-            </p>
+            <table>
+                <tr>
+                    <td>ID(メールアドレス)</td>
+                    <td><input type="text" name = "mail" value=""></td>
+                </tr>
+                <tr>
+                    <td>パスワード</td>
+                    <td><input type="password" name = "pass" value=""></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
+                    <td><input type="submit" name="submit1" value="ログイン"></td>
+                </tr>
+            </table>
+            
         </form>
     </section>
     <!-- <section>
@@ -29,7 +35,7 @@
         </form>
     </section>
      -->
-    <input type="button" value="前画面に戻る" onclick="history.back()">
+    
     
 </body>
 </html>

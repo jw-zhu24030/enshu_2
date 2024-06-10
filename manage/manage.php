@@ -2,7 +2,7 @@
  
 
 // databaseのログイン情報
-$dsn = "mysql:host=localhost;dbname=enshu;charset=utf8";
+$dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
 $user = "testuser";
 $pass = "testpass";
 

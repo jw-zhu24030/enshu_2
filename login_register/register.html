@@ -7,11 +7,35 @@
 </head>
 <body>
     <h3>新規登録</h3>
-    <form action="register.php" method="get">
-        名前：　　　<input type="text" value="" name="name" id="name"><br>
-        パスワード：<input type="password" value="" name="pass" id="pass"><br>
-        <input type="submit" value="登録">
+    <form action="register.php" method="post">
+
+        <table>
+            <tr>
+                <td>ID(メールアドレス)</td>
+                <td><input type="text" value="" name="mail" id="mail"></td>
+            </tr>
+            <tr>
+                <td>名前</td>
+                <td><input type="text" value="" name="name" id="name"></td>
+            </tr>
+            <tr>
+                <td>パスワード：</td>
+                <td><input type="password" value="" name="pass" id="pass"></td>
+            </tr>
+            <tr>
+                <td>パスワード確認</td>
+                <td><input type="password" value="" name="pass1" id="pass1"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="前画面に戻る" onclick="history.back()">
+                </td>
+                <td>
+                    <input type="submit" value="送信" >
+                </td>
+            </tr>
+        </table>
+
     </form>
-    <input type="button" value="前画面に戻る" onclick="history.back()">
 </body>
 </html>

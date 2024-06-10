@@ -1,8 +1,6 @@
 <?php
-clearCookie();
-
 // databaseのログイン情報
-$dsn = "mysql:host=localhost;dbname=enshu;charset=utf8";
+$dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
 $user = "testuser";
 $pass = "testpass";
 
@@ -27,10 +25,13 @@ foreach($origin as $key=>$value){
     $input[$key] = $value;
 }
 
+$inputmail = $input["mail"];
 $inputname = $input["name"];
 $inputpass = $input["pass"];
+$checkpass = $input["pass1"];
 
 setcookie("name", $inputname, time()+300);
+setcookie("mail", $inputmail, time()+300);
 
 
 
@@ -43,11 +44,14 @@ try {
   if($inputname === ""){
     $error_notes.="・名前が未入力です。<br>";
   }
-  if($inputpass === ""){
+  if($inputpass === "" || $checkpass === "" ){
     $error_notes.="・パスワードが未入力です。<br>";
   }
-  if(($inputname!="" && $inputpass!="") && isUser($dbh,$inputname)){
-    $error_notes.="・既存のユーザー名前です。<br>";
+  if($inputpass != $checkpass){
+    $error_notes.="・二回入力されたパスワードは間違いました。<br>";
+  }
+  if(($inputname!="" && $inputpass!="") && isUser($dbh,$inputmail)){
+    $error_notes.="・既存のユーザーメールアドレスです。<br>";
   }
   #エラーが存在する場合
   if($error_notes !== "") {
@@ -63,16 +67,6 @@ try {
   echo "エラー内容：" . $e->getMessage();
 }
 
-
-function clearCookie(){
-    if (isset($_COOKIE['name'])) {
-        unset($_COOKIE['name']); 
-        setcookie('remember_user', '', -1, '/'); 
-        return true;
-    } else {
-        return false;
-    }
-}
 
 function error($err){
     global $tmpl_dir;
@@ -92,10 +86,10 @@ function error($err){
 
 
 // ユーザー認証を行う関数
-function isUser($dbh, $name) {
-  $sql = "SELECT * FROM user WHERE name = :name";
+function isUser($dbh, $mail) {
+  $sql = "SELECT * FROM user WHERE id = :mail";
   $stmt = $dbh->prepare($sql);
-  $stmt->bindParam(':name', $name);
+  $stmt->bindParam(':mail', $mail);
   $stmt->execute();
   
   // レコードが見つかった場合はtrueを返す
@@ -106,16 +100,16 @@ function isUser($dbh, $name) {
 function register($dbh,$input){
     // stock tableのname, priceの値に入力された商品名と値段を登録
     $sql = <<<_SQL_
-            INSERT INTO user (name, pass)VALUES
-            (?,?);
+            INSERT INTO user (id,name, pwd)VALUES
+            (?,?,?);
 _SQL_;
     // prepare() method を使って、sqlの実行結果を$stmt objectに保留
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(1,$input["name"]);
-    $stmt->bindParam(2,$input["pass"]);
+    $stmt->bindParam(1,$input["mail"]);
+    $stmt->bindParam(2,$input["name"]);
+    $stmt->bindParam(3,$input["pass"]);
     $stmt->execute();
 }
-
 
 
 

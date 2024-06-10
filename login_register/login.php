@@ -1,8 +1,7 @@
 <?php
-clearCookie();
 
 // databaseのログイン情報
-$dsn = "mysql:host=localhost;dbname=enshu;charset=utf8";
+$dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
 $user = "testuser";
 $pass = "testpass";
 
@@ -27,10 +26,10 @@ foreach($origin as $key=>$value){
     $input[$key] = $value;
 }
 
-$inputname = $input["name"];
+$inputmail = $input["mail"];
 $inputpass = $input["pass"];
 
-// setcookie("name", $inputname, time()+600);
+// setcookie("mail", $inputmail, time()+600);
 
 
 
@@ -40,28 +39,28 @@ try {
     
 
   $error_notes = "";
-  if($inputname === ""){
+  if($inputmail === ""){
     $error_notes.="・名前が未入力です。<br>";
   }
   if($inputpass === ""){
     $error_notes.="・パスワードが未入力です。<br>";
   }
-  if(($inputname!="" && $inputpass!="") && !isUser($dbh,$inputname,$inputpass)){
+  if(($inputmail!="" && $inputpass!="") && !isUser($dbh,$inputmail,$inputpass)){
     $error_notes.="・名前またはパスワードが間違えました。<br>";
   }
   #エラーが存在する場合
   if($error_notes !== "") {
       error($error_notes);
-  }elseif(isManager($inputname,$inputpass)){
+  }elseif(isManager($inputmail,$inputpass)){
     header("Location:../manage/manage.php");
     exit();
   }else{
   
-  $inputname = wordProcess($inputname);
+  $inputmail = wordProcess($inputmail);
   $inputpass = wordProcess($inputpass);
-  echo "こんにちは、{$inputname}さん。";
+  // echo "こんにちは、{$inputmail}さん。";
 
-  setcookie("name", $inputname, time()+600, "/");
+  setcookie("mail", $inputmail, time()+600, "/");
   
   }
 
@@ -73,15 +72,6 @@ try {
 
 
 
-function clearCookie(){
-    if (isset($_COOKIE['name'])) {
-        unset($_COOKIE['name']); 
-        setcookie('remember_user', '', -1, '/'); 
-        return true;
-    } else {
-        return false;
-    }
-}
 
 function error($err){
     global $tmpl_dir;
@@ -102,7 +92,7 @@ function error($err){
 
 // ユーザー認証を行う関数
 function isUser($dbh, $name, $pass) {
-  $sql = "SELECT * FROM user WHERE name = :name AND pass = :pass";
+  $sql = "SELECT * FROM user WHERE name = :name AND pwd = :pass";
   $stmt = $dbh->prepare($sql);
   $stmt->bindParam(':name', $name);
   $stmt->bindParam(':pass', $pass);
@@ -144,12 +134,28 @@ function wordProcess($input){
 }
 ?>
 <html>
-<br>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    
     <section>
-        <a href="../search/search.php">チケット申し込み</a>
+        <li><a href="../homepage.html">ホームページ</a></li>
+        <li><a href="../mypage/mypage.php">マイページ</a></li>
+        <li><a href="../login_register/logout.php">ログアウト</a></li>
+        <li><a href="../search/search.php">チケット申し込み</a></li>
+        <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
     </section>
-    <section>
-        <a href="../homepage.html">ホームページへ戻る</a>
-    </section>
-<!-- <br><input type="button" value="前画面に戻る" onclick="history.back()"> -->
+    <?php
+      if (isset($_COOKIE['name'])){
+      echo "こんにちは、{$_COOKIE['name']}さん。";
+      }
+    ?>
+
+
+
+</body>
 </html>
