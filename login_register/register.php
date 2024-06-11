@@ -5,6 +5,12 @@ $user = "testuser";
 $pass = "testpass";
 
 
+if (isset($_COOKIE["name"])) {
+  
+  clearCookie();
+}
+
+
 // 受け取りデータを処理する
 $origin = []; // ここに処理前のデータが入る
 if(isset($_GET)||isset($_POST)){
@@ -127,6 +133,18 @@ function wordProcess($input){
     $input = str_replace("\r", "_kaigyou_", $input);
     return $input;
 }
+
+function clearCookie(){
+  if (isset($_COOKIE['name'])) {
+      unset($_COOKIE['name']); 
+      setcookie('remember_user', '', -1, '/'); 
+      return true;
+  } else {
+      return false;
+  }
+}
+
+
 ?>
 <html>
 <br>

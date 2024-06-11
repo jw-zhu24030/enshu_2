@@ -29,6 +29,8 @@ foreach($origin as $key=>$value){
 $inputmail = $input["mail"];
 $inputpass = $input["pass"];
 
+$inputmail = wordProcess($inputmail);
+$inputpass = wordProcess($inputpass);
 // setcookie("mail", $inputmail, time()+600);
 
 
@@ -45,22 +47,27 @@ try {
   if($inputpass === ""){
     $error_notes.="・パスワードが未入力です。<br>";
   }
-  if(($inputmail!="" && $inputpass!="") && !isUser($dbh,$inputmail,$inputpass)){
-    $error_notes.="・名前またはパスワードが間違えました。<br>";
+  if(($inputmail!="" && $inputpass!="") && !isUser($dbh,$inputmail,$inputpass) && !isManager($dbh,$inputmail,$inputpass)){
+    $error_notes.="・メールアドレスまたはパスワードが間違えました。<br>";
   }
   #エラーが存在する場合
   if($error_notes !== "") {
       error($error_notes);
-  }elseif(isManager($inputmail,$inputpass)){
+  }elseif(isManager($dbh,$inputmail,$inputpass)){
     header("Location:../manage/manage.php");
+    $name = getUserInfo($dbh,$inputmail)["name"];
+    setcookie("name", $name, time()+600, "/");
     exit();
   }else{
   
-  $inputmail = wordProcess($inputmail);
-  $inputpass = wordProcess($inputpass);
   // echo "こんにちは、{$inputmail}さん。";
 
+  $name = getUserInfo($dbh,$inputmail)["name"];
+  $uid = getUserInfo($dbh,$inputmail)["uid"];
   setcookie("mail", $inputmail, time()+600, "/");
+  setcookie("name", $name, time()+600, "/");
+  setcookie("uid", $uid, time()+600, "/");
+  
   
   }
 
@@ -89,10 +96,20 @@ function error($err){
     exit;
   }
 
+function getUserInfo($dbh, $id){
+
+  $sql = "SELECT * FROM user WHERE id = :id" ;
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(':id', $id);
+  $stmt->execute();
+  $row = $stmt->fetch();
+  return $row;
+}
+
 
 // ユーザー認証を行う関数
 function isUser($dbh, $name, $pass) {
-  $sql = "SELECT * FROM user WHERE name = :name AND pwd = :pass";
+  $sql = "SELECT * FROM user WHERE id = :name AND pwd = :pass AND flag = 1" ;
   $stmt = $dbh->prepare($sql);
   $stmt->bindParam(':name', $name);
   $stmt->bindParam(':pass', $pass);
@@ -103,18 +120,15 @@ function isUser($dbh, $name, $pass) {
 }
 
 
-function isManager( $name, $pass) {
-
-  // 管理者情報を設定します（例: aaaとpwd123）
-  $manager_name = 'manager01';
-  $manager_pass = 'aaa!!!123';
-
-  // 入力された情報が管理者情報と一致するか確認します
-  if($name === $manager_name && $pass === $manager_pass){
-    return true;
-  }else{
-    return false;
-  }
+function isManager( $dbh,$name, $pass) {
+  $sql = "SELECT * FROM user WHERE id = :name AND pwd = :pass AND flag = 0" ;
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(':name', $name);
+  $stmt->bindParam(':pass', $pass);
+  $stmt->execute();
+  
+  // レコードが見つかった場合はtrueを返す
+  return $stmt->fetch() !== false;
 }
 
 

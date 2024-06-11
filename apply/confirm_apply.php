@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Tokyo');
 // databaseのログイン情報
 $dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
 $user = "testuser";
@@ -9,6 +9,11 @@ $origin = []; // ここに処理前のデータが入る
 if(isset($_GET)||isset($_POST)){
     $origin += $_GET;
     $origin += $_POST;
+}
+
+
+if (isset($_COOKIE["name"])) {
+    $uid = $_COOKIE["uid"];
 }
 
 // 文字コードとhtmlエンティティズの処理を繰り返し行う
@@ -32,10 +37,10 @@ try{
 
     $row = display();
     
-    $id = $row["id"];
+    $lid = $row["id"];
     $name = $row["name"];
     $artist = $row["artist"];
-    $address = $row["address"];
+    $address = $row["place"];
     $day = $row["day"];
     $daytime = $row["daytime"];
     
@@ -49,7 +54,7 @@ function display(){
     
     global $dbh;
     global $input;
-    $sql = "SELECT * FROM livelist WHERE flag = 1 AND id = {$input['id']}";
+    $sql = "SELECT * FROM livelist WHERE flag = 1 AND id = {$input['lid']}";
 
     // echo ($sql);
     // prepare() methodを使って、sqlの実行結果を$stmt objectに保留、
@@ -78,7 +83,7 @@ function display(){
     <table>
         <tr>
             <td>公演番号</td>
-            <td><?php echo"{$id }";?></td>
+            <td><?php echo"{$lid }";?></td>
         </tr>
         <tr>
             <td>公演名</td>
@@ -109,7 +114,8 @@ function display(){
                 
                 <form action="submit_apply.php" method="get">
                     <input type="submit"value="申し込み">
-                    <input type="hidden" name="id" value=<?php echo"{$id}";?>>
+                    <input type="hidden" name="lid" value=<?php echo"{$lid}";?>>
+                    <input type="hidden" name="uid" value=<?php echo"{$uid}";?>>
                     <input type="hidden" name="applytime" value=<?php echo date("Y-m-d,H:i:s");?>>
                 </form>
             </td>

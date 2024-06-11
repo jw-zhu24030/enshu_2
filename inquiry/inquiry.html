@@ -7,12 +7,31 @@
 </head>
 <body>
     <form action="inquiry.php" method="post">
-    <div>名前：　　　　　<input type="text" name="name" value=""></div>
-    <div>メールアドレス：<input type="text" name="mail" value=""></div>
-    <div>問い合わせ内容<br>
-    <textarea name="text" id="" cols="40" rows="10"></textarea></div>
-    <input type="submit" value="送信">
+        <table>
+            <table>
+                <tr>
+                  <td>名前</td>
+                  <td><input type="text" name="name" value="" size="38"></td>
+                </tr>
+                <tr>
+                  <td>メールアドレス</td>
+                  <td><input type="text" name="mail" value="" size="38"></td>
+                </tr>
+                <tr>
+                  <td>お問い合わせ公演番号</td>
+                  <td><input type="text" name="liveno" value="" size="38" placeholder="もし無ければ空いてください。"></td>
+                </tr>
+                <tr>
+                  <td>お問い合わせ内容</td>
+                  <td><textarea name="text" id="" cols="40" rows="10"></textarea></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
+                    <td><input type="submit" value="送信"></td>
+                </tr>
+            </table>
+        </table>
     </form>
-    <input type="button" value="前画面に戻る" onclick="history.back()">
+    
 </body>
 </html>

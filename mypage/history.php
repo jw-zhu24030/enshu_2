@@ -14,8 +14,10 @@ if(isset($_GET)||isset($_POST)){
 }
 
 
-if (isset($_COOKIE["name"])) {
-    echo "aaaa";
+if (isset($_COOKIE)) {
+    echo $_COOKIE["name"];
+    echo $_COOKIE["mail"];
+    echo $_COOKIE["uid"];
 }else{
     echo "bbbb";
 }
