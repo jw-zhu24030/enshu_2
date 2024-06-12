@@ -28,37 +28,39 @@ foreach($origin as $key=>$value){
 // DBに接続します
 try{
     $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
+    
+
+    
     if(isset($input["mode"] ) && $input["mode"]=="edit"){
-        update($dbh,$input);
+        $result =  display();
+        $name = $result['name'];
+        $artist = $result['artist'];
+        $place = $result['place'];
+        $day = $result['day'];
+        $daytime = $result['daytime'];
+        
 
     }
 
-    dispaly();
-    
 
 }catch(PDOException $e){
     echo "接続失敗．．．";
     echo "エラー内容：".$e->getMessage();
 }
-function display($dbh,$input){
-    
+
+function display(){
+    global $dbh;
+    global $input;
     $sql = <<<_SQL_
         SELECT * FROM livelist WHERE id = ?;
 _SQL_;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(1,$input["id"]);
     $stmt->execute();
+    $result = $stmt -> fetch();
+    return $result;
 }
 
-function update($dbh,$input){
-    
-    $sql = <<<_SQL_
-        UPDATE livelist SET flag = 0 WHERE id = ?;
-_SQL_;
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(1,$input["id"]);
-    $stmt->execute();
-}
 
 ?>
 
@@ -71,21 +73,25 @@ _SQL_;
         <body>
             <section>
                 <h3>公演内容を更新</h3>
-                <form action="manage_live.php" method="post">
+                <form action="manage_live_edit_confirm.php" method="post">
                     <table>
                         <tr>
+                            <td>公演番号</td>
+                            <td><input type="hidden" name="id" value="<?php echo $result['id'];?>"><?php echo $result['id'];?></td>
+                        </tr>
+                        <tr>
                             <td>公演名</td>
-                            <td><input type="text" name="name" value=""></td>
+                            <td><input type="text" name="name" value="<?php echo $result['name'];?>"></td>
                         </tr>
                         <tr>
                             <td>アーティスト</td>
-                            <td><input type="text" name="artist" value=""></td>
+                            <td><input type="text" name="artist" value="<?php echo $result['artist'];?>"></td>
                         </tr>
                         <tr>
                             <td>場所</td>
                             <td>
                                 <select name="prefectures" id ="prefectures">
-                                    <option value="" selected>都道府県を選択</option>
+                                    <option value="<?php echo $result['place'];?>" selected><?php echo $result['place'];?></option>
                                     <option value="北海道">北海道</option>
                                     <option value="青森県">青森県</option>
                                     <option value="岩手県">岩手県</option>
@@ -138,16 +144,15 @@ _SQL_;
                         </tr>
                         <tr>
                             <td>日付</td>
-                            <td><input type="date" name="day" value=""></td>
+                            <td><input type="date" name="day" value="<?php echo $result['day'];?>"></td>
                         </tr>
                         <tr>
                             <td>時間</td>
-                            <td><input type="time" name="daytime" value=""></td>
+                            <td><input type="time" name="daytime" value="<?php echo $result['daytime'];?>"></td>
                         </tr>
                         <tr>
                     <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
-                    <td><input type="submit" value="登録">
-                    <input type="hidden" name="mode" value="update"></td></tr>
+                    <td><input type="submit" value="登録"></td></tr>
                     </table>
                 </form>
             </section>

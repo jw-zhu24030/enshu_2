@@ -1,9 +1,15 @@
 <?php
 
-if (isset($_COOKIE)) 
-{
-    echo "こんにちは、{$_COOKIE["name"]}";
-} 
+if (isset($_COOKIE["name"])) {
+
+}else{
+    // クッキーがない場合はログインを促すメッセージを表示して終了します
+    echo "<p>ログインしてください</p>";
+    echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
+    echo ' <a href="../login_register/login.html">ログイン</a>';
+    exit();
+
+}
 
 
 
@@ -26,6 +32,11 @@ if (isset($_COOKIE))
         <tr>
             <td>
                 場所管理
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="manage_inquiry.php">問い合わせ管理</a>
             </td>
         </tr>
     </table>

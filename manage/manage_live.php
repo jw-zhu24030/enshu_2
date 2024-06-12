@@ -34,11 +34,13 @@ try{
     if(isset($input["mode"]) && $input["mode"]=="delete"){
         delete();
     }
-    // if(isset($input["mode"]) && $input["mode"]=="apply"){
-    //     apply();
-    // }
+    if(isset($input["mode"]) && $input["mode"]=="update"){
+        
+        update($dbh,$input);
 
-    dispaly();
+    }
+
+    display();
     
 
 }catch(PDOException $e){
@@ -64,11 +66,17 @@ _SQL_;
     $stmt->execute();
 }
 
-function dispaly(){
+function display(){
     global $dbh;
     global $input;
     $sql = <<<_SQL_
-            SELECT * FROM livelist WHERE flag = 1;
+
+SELECT livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime, COUNT(history.lid) AS count
+FROM livelist
+LEFT JOIN history ON livelist.id = history.lid
+WHERE livelist.flag = 1
+GROUP BY livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime;
+
 _SQL_;
 
     // echo ($dbh->query($sql));
@@ -99,6 +107,7 @@ _SQL_;
         $address = $row["place"];
         $day = $row["day"];
         $daytime = $row["daytime"];
+        $count = $row["count"];
     
         // tmplファイルの文字置き換え
         $insert = str_replace("!id!",$id, $insert);
@@ -107,6 +116,7 @@ _SQL_;
         $insert = str_replace("!address!",$address, $insert);
         $insert = str_replace("!day!",$day, $insert);
         $insert = str_replace("!daytime!",$daytime, $insert);
+        $insert = str_replace("!count!",$count, $insert);
      
         // stock.htmlに差し込む変数に格納する
         $block .= $insert; // loopするために、insert_tmplの値を追加する
@@ -128,6 +138,27 @@ _SQL_;
     echo ($top);
 }
 
+function update($dbh,$input){
+    // stock tableのname, priceの値に入力された商品名と値段を登録
+    $sql = <<<_SQL_
+            UPDATE livelist SET
+            name = ?, 
+            artist = ?, 
+            place = ?, 
+            day = ?, 
+            daytime = ? 
+            WHERE id = ?;
+_SQL_;
+    // prepare() method を使って、sqlの実行結果を$stmt objectに保留
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(1,$input["name"]);
+    $stmt->bindParam(2,$input["artist"]);
+    $stmt->bindParam(3,$input["place"]);
+    $stmt->bindParam(4,$input["day"]);
+    $stmt->bindParam(5,$input["daytime"]);
+    $stmt->bindParam(6,$input["id"]);
+    $stmt->execute();
+}
 function delete(){
     global $dbh;
     global $input;
