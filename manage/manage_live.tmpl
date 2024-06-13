@@ -6,6 +6,7 @@
     <td>!day!</td>
     <td>!daytime!</td>
     <td>!count!</td>
+    <td>!status!</td>
     <td>
         <form action="manage_live.php" method="post">
             <input type="submit"value="削除">
@@ -17,6 +18,13 @@
         <form action="manage_live_edit.php" method="post">
             <input type="submit"value="編集">
             <input type="hidden" name="mode" value="edit">
+            <input type="hidden" name="id" value="!id!">
+        </form>
+    </td>
+    <td>
+        <form action="manage_live.php" method="post">
+            <input type="submit"value="抽選">
+            <input type="hidden" name="mode" value="result">
             <input type="hidden" name="id" value="!id!">
         </form>
     </td>

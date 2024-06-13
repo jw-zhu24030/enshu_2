@@ -1,6 +1,9 @@
 <?php
-if (isset($_COOKIE["name"])) {
 
+if (isset($_COOKIE['uid'])){
+    $uid = $_COOKIE['uid'];
+    // var_dump($_COOKIE);
+    
 }else{
     // クッキーがない場合はログインを促すメッセージを表示して終了します
     echo "<p>ログインしてください</p>";
@@ -8,7 +11,7 @@ if (isset($_COOKIE["name"])) {
     echo ' <a href="../login_register/login.html">ログイン</a>';
     exit();
 
-}
+} 
 
 // databaseのログイン情報
 $dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
@@ -37,8 +40,11 @@ foreach($origin as $key=>$value){
 // DBに接続します
 try{
     $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
-
-    $result = display($dbh,$input);
+    
+  $result =  display();
+        $mail = $result['id'];
+        $name = $result['name'];
+        $pwd = $result['pwd'];
     
 
 
@@ -48,71 +54,75 @@ try{
     echo "エラー内容：".$e->getMessage();
 }
 
-
-// update($dbh,$input);
-
-function display($dbh,$input){
-    // stock tableのname, priceの値に入力された商品名と値段を登録
+function display(){
+    global $dbh;
+    global $uid;
     $sql = <<<_SQL_
-            SELECT * FROM livelist WHERE id = ?;
+        SELECT * FROM user WHERE uid = ?;
 _SQL_;
-    // prepare() method を使って、sqlの実行結果を$stmt objectに保留
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(1,$input["id"]);
+    $stmt->bindParam(1,$uid);
     $stmt->execute();
-    $result = $stmt->fetch();
+    $result = $stmt -> fetch();
     return $result;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>確認</title>
+    <title>個人情報</title>
 </head>
 <body>
-    <h3>以下の内容を取り消しますか</h3>
-    <form action="history.php" method="post">
+    <h3>個人情報確認</h3>
+    <form action="myinfo.php" method="post">
         <table>
             <tr>
-                <td>公演番号</td>
-                <td><?php echo $result['id'];?>
-                    <input type="hidden" name="id" value="<?php echo $result['id'];?>"></td>
+                <td>
+                    ID/メールアドレス
+                </td>
+                <td>
+                    <input type="text" name="id" value="<?php echo $result['id'];?>"></td>    
+                </td>
             </tr>
             <tr>
-                <td>公演名</td>
-                <td><?php echo $result['name'];?>
-                <input type="hidden" name="name" value="<?php echo $result['name'];?>"></td>
+                <td>
+                    ニックネーム
+                </td>
+                <td>
+                <input type="text" name="name" value="<?php echo $result['name'];?>"></td>  
+
+                </td>
             </tr>
             <tr>
-                <td>アーティスト</td>
-                <td><?php echo $result['artist'];?>
-                <input type="hidden" name="artist" value="<?php echo $result['artist'];?>"></td>
+                <td>
+                    パスワード
+                </td>
+                <td>
+                <input type="password" name="pwd" value="<?php echo $result['pwd'];?>"></td>  
+
+                </td>
             </tr>
             <tr>
-                <td>場所</td>
-                <td><?php echo $result['place'];?>
-                <input type="hidden" name="place" value="<?php echo $result['place'];?>"></td>
-            </tr>
-            <tr>
-                <td>日付</td>
-                <td><?php echo $result['day'];?>
-                <input type="hidden" name="day" value="<?php echo $result['day'];?>"></td>
-            </tr>
-            <tr>
-                <td>時間</td>
-                <td><?php echo $result['daytime'];?>
-                <input type="hidden" name="daytime" value="<?php echo $result['daytime'];?>"></td>
+                <td>
+                    パスワード確認
+                </td>
+                <td>
+                <input type="password" name="pwd1" value="<?php echo $result['pwd'];?>"></td>  
+
+                </td>
             </tr>
             <tr>
                 <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
-                <td><input type="submit" value="取り消し">
-                    <input type="hidden"  name="mode" value="cancle"></td>
+                <td><input type="submit" value="確認"></td>
             </tr>
         </table>
+        <input type="hidden" name="mode" value="edit">
+        <input type="hidden" name="uid" value="<?php echo $result['uid'];?>">
     </form>
-
 </body>
 </html>
+

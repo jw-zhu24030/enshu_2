@@ -36,8 +36,6 @@ $inputname = $input["name"];
 $inputpass = $input["pass"];
 $checkpass = $input["pass1"];
 
-setcookie("name", $inputname, time()+300);
-setcookie("mail", $inputmail, time()+300);
 
 
 

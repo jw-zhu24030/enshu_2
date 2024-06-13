@@ -1,4 +1,14 @@
 <?php
+ if (isset($_COOKIE["name"])) {
+
+ }else{
+     // クッキーがない場合はログインを促すメッセージを表示して終了します
+     echo "<p>ログインしてください</p>";
+     echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
+     echo ' <a href="../login_register/login.html">ログイン</a>';
+     exit();
+ 
+ }
  
 
 // databaseのログイン情報
@@ -35,9 +45,10 @@ try{
         delete();
     }
     if(isset($input["mode"]) && $input["mode"]=="update"){
-        
         update($dbh,$input);
-
+    }
+    if(isset($input["mode"]) && $input["mode"]=="result"){
+        getLiveResult($dbh,$input);
     }
 
     display();
@@ -71,11 +82,11 @@ function display(){
     global $input;
     $sql = <<<_SQL_
 
-SELECT livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime, COUNT(history.lid) AS count
+SELECT livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime, livelist.status, COUNT(history.lid) AS count
 FROM livelist
 LEFT JOIN history ON livelist.id = history.lid
 WHERE livelist.flag = 1
-GROUP BY livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime;
+GROUP BY livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime, livelist.status;
 
 _SQL_;
 
@@ -108,6 +119,12 @@ _SQL_;
         $day = $row["day"];
         $daytime = $row["daytime"];
         $count = $row["count"];
+        $hit = "";
+        if($row["status"]==0){
+            $status = "未抽選";
+        }else{
+            $status = "抽選済み";
+        }
     
         // tmplファイルの文字置き換え
         $insert = str_replace("!id!",$id, $insert);
@@ -117,6 +134,7 @@ _SQL_;
         $insert = str_replace("!day!",$day, $insert);
         $insert = str_replace("!daytime!",$daytime, $insert);
         $insert = str_replace("!count!",$count, $insert);
+        $insert = str_replace("!status!",$status, $insert);
      
         // stock.htmlに差し込む変数に格納する
         $block .= $insert; // loopするために、insert_tmplの値を追加する
@@ -170,17 +188,43 @@ _SQL_;
     $stmt->execute();
 
 }
-function apply(){
-    global $dbh;
-    global $input;
+function getLiveResult($dbh,$input){
+    // stock tableのname, priceの値に入力された商品名と値段を登録
     $sql = <<<_SQL_
-        SELECT * FROM livelist WHERE id = ?;
+            UPDATE livelist SET status = 1 WHERE id = ?;
 _SQL_;
+    // prepare() method を使って、sqlの実行結果を$stmt objectに保留
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(1,$input["id"]);
     $stmt->execute();
 
+    $class = randomChoose();
+    $sql1 = "";
+    switch($class){
+        case -1:
+            $sql1 = "UPDATE history SET hit = -1 WHERE lid = ?;";
+            break;
+        case 1:
+            $sql1 = "UPDATE history SET hit = 1 WHERE lid = ?;";
+            break;
+    }
+    // prepare() method を使って、sqlの実行結果を$stmt objectに保留
+    $stmt1 = $dbh->prepare($sql1);
+    $stmt1->bindParam(1,$input["id"]);
+    $stmt1->execute();
 
+}
+function randomChoose(){
+    
+    // 生成一个0到99的随机数
+    $random = rand(0, 99);
 
+    // 20%的概率为成功（0到19），80%的概率为失败（20到99）
+    if ($random < 20) {
+        $class = -1;
+    } else {
+        $class = 1;
+    }
+    return $class;
 }
 ?>

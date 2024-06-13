@@ -67,7 +67,7 @@ _SQL_;
     }elseif($input["prefectures"]){
         $prefectures = $input["prefectures"];
         $sql = <<<_SQL_
-            SELECT * FROM livelist WHERE flag = 1 and (address='$prefectures');
+            SELECT * FROM livelist WHERE flag = 1 and (place='$prefectures');
 _SQL_;
     }
     // elseif($input["checkbox"]){
@@ -113,8 +113,10 @@ _SQL_;
         $address = $row["place"];
         $day = $row["day"];
         $daytime = $row["daytime"];
-        if (isset($_COOKIE["name"])) {
+        if (isset($_COOKIE["uid"])) {
             $uid = $_COOKIE["uid"];
+        }else{
+            $uid = "";
         }
         // tmplファイルの文字置き換え
         $insert = str_replace("!lid!",$lid, $insert);

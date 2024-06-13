@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_COOKIE)){
+if (isset($_COOKIE['uid'])){
     $uid = $_COOKIE['uid'];
 }else{
     // クッキーがない場合はログインを促すメッセージを表示して終了します
@@ -72,7 +72,7 @@ function dispaly(){
     global $input;
     global $uid;
     $sql = <<<_SQL_
-            SELECT livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime
+            SELECT livelist.id, livelist.name, livelist.artist, livelist.place, livelist.day, livelist.daytime, history.hit as status
              FROM livelist LEFT JOIN history ON livelist.id = history.lid
              WHERE history.uid = {$uid} AND history.flag = 1
              ORDER BY livelist.day, livelist.daytime;
@@ -108,6 +108,18 @@ _SQL_;
         $address = $row["place"];
         $day = $row["day"];
         $daytime = $row["daytime"];
+        $status = "";
+        switch($row["status"]){
+            case -1:
+                $status = "落選";
+                break;
+            case 0:
+                $status = "抽選待ち";
+                break;
+            case 1:
+                $status = "当選";
+                break;
+        }
         // tmplファイルの文字置き換え
         $insert = str_replace("!id!",$id, $insert);
         $insert = str_replace("!name!",$name, $insert);
@@ -115,6 +127,7 @@ _SQL_;
         $insert = str_replace("!address!",$address, $insert);
         $insert = str_replace("!day!",$day, $insert);
         $insert = str_replace("!daytime!",$daytime, $insert);
+        $insert = str_replace("!status!",$status, $insert);
     
         // stock.htmlに差し込む変数に格納する
         $block .= $insert; // loopするために、insert_tmplの値を追加する
