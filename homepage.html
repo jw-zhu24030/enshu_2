@@ -27,31 +27,34 @@
     </script>
 </head>
 <body>
-    
-    <section>
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
         <ul>
-            <li><a href="login_register/register.html">新規登録</a></li>
-            <li><a href="login_register/login.html">ログイン</a></li>
-            <li><a href="login_register/logout.php">ログアウト</a></li>
             <li><a href="mypage/mypage.php">マイページ</a></li>
             <li><a href="search/search.php">チケット申し込み</a></li>
             <li><a href="inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="login_register/register.html">新規登録</a></li>
+            <li><a href="login_register/login.html">ログイン</a></li>
+            <li><a href="login_register/logout.php">ログアウト</a></li>
         </ul>
-    </section>
-    
-    <!-- Placeholder for greeting -->
-    <div id="greeting"></div>
-
-    <form action="apply/apply.php" method="get">
-            
-    <section> 
+    </div>
+    <br><br><br><br>
+    <div class="searchContainer">
+    <form action="apply/apply.php" method="get" class="searchbykeywords">
+        
+    <div class="searchbykeywords">
         <h4>番号またはキーワードより探す</h4>
-        <input type="text" name="inputsearch" value=""><br>
-        <input type="radio" value="id" name="radiosearch">番号
-        <input type="radio" value="name" name="radiosearch">公演名
-        <input type="radio" value="artist" name="radiosearch">アーティスト名<br>
-    </section>
-    <section>
+        <input type="text" name="inputsearch" placeholder="番号またはキーワードより探す"value="">
+        <div class="search-group">
+        <label class="typesearch"><input type="radio" value="id" name="radiosearch">番号</label>
+        <label class="typesearch"><input type="radio" value="name" name="radiosearch">公演名</label>
+        <label class="typesearch"><input type="radio" value="artist" name="radiosearch">アーティスト名</label></div>
+        <input type="submit" class="searchButton" value="検索" >
+    
+    </div><br>
+    <div class="searchbyfilter">
+        <br>
         <h4>フィルターより探す</h4>
         日付<input type="date" name="date" id="date" value=""><br>
         場所<select name="prefectures" id ="prefectures">
@@ -103,10 +106,12 @@
                 <option value="宮崎県">宮崎県</option>
                 <option value="鹿児島県">鹿児島県</option>
                 <option value="沖縄県">沖縄県</option>
-            </select><br>
-            <input type="submit" value="検索" >
-            </section>
+            </select>
+            <br>
+            <input type="submit" class="searchButton" value="検索" >
+            </div>
         </form>
+    </div>
     
 </body>
 </html>

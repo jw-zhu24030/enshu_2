@@ -59,6 +59,12 @@ _SQL_;
         $sql = <<<_SQL_
             SELECT * FROM livelist WHERE flag = 1 and {$type} LIKE '%{$keyword}%';
 _SQL_;
+    }elseif($input["date"] && $input["prefectures"]){
+        $day = $input["date"];
+        $prefectures = $input["prefectures"];
+        $sql = <<<_SQL_
+            SELECT * FROM livelist WHERE flag = 1 and (day='{$day}')and (place='$prefectures');
+_SQL_;
     }elseif($input["date"]){
         $day = $input["date"];
         $sql = <<<_SQL_

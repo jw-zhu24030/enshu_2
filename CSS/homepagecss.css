@@ -1,39 +1,111 @@
-/* 定义基础样式 */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: white;
     color: black;
 }
-ul {
+
+.topnav {
     position: fixed;
     top: 0;
     width: 100%;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
     background-color: #ff0000;
 }
- 
-li {
+
+.topnav div.greeting {
+    color: white;
+    padding: 14px 16px;
     float: left;
+    
 }
- 
-li a {
-    display: block;
+
+.topnav ul{
+    float: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+.topnav li:not(:last-child) {
+    border-right: 1px solid #fff; /* 分组标签用竖线隔开 */
+}
+
+.topnav li a {
+    display: inline-block; /* 保持为内联块级元素 */
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
- 
-/*鼠标移动到选项上修改背景颜色 */
-li a:hover:not(.active) {
+
+/* 鼠标移动到选项上修改背景颜色 */
+.topnav li a:hover:not(.active) {
     background-color: #c40000;
 }
 
-.active {
+.topnav .active {
     background-color: #ffffff;
     color: red;
+}
+
+.searchContainer {
+    display: flex;
+    justify-content: center; /* 水平居中排列元素 */
+    align-items: center; /* 垂直居中元素 */
+}
+
+.searchall{
+    display: inline-block;
+    margin-bottom: 30px;
+    text-align: center;
+    text-decoration: none;
+    font: normal;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    font-size: small;
+}
+
+.searchbykeywords input[type="text"], 
+.searchbyfilter input[type="date"], 
+.searchbyfilter select {
+    width: 100%; /* 尽量避免使用超过100%的宽度 */
+    max-width: 500px; /* 限制最大宽度 */
+    margin-bottom: 10px;
+    box-sizing: border-box; /* 内边距和边框不增加宽度 */
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+}
+
+.searchbykeywords input[type="submit"], 
+.searchbyfilter input[type="submit"] {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* 确保 label 在一行中均匀分布 */
+.searchbykeywords label.typesearch,
+.searchbyfilter label.typesearch {
+    display: inline-block;
+    margin-left: 25px;
+    margin-right: 25px; 
+}
+
+
+
+.loginContainer {
+    display: flex;
+    justify-content: center; /* 水平居中排列元素 */
+    align-items: center; /* 垂直居中元素 */
 }

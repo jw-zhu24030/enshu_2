@@ -7,9 +7,10 @@
 </head>
 <body>
     <section>
+        <div class="loginContainer">
         <h3>ログイン</h3>
         <form action="login.php" method="post">
-            <table>
+            <table class="login">
                 <tr>
                     <td>ID(メールアドレス)</td>
                     <td><input type="text" name = "mail" value=""></td>
@@ -23,18 +24,10 @@
                     <td><input type="submit" name="submit1" value="ログイン"></td>
                 </tr>
             </table>
+            </div>
             
         </form>
     </section>
-    <!-- <section>
-        <h3> 管理者モード切替</h3>
-    
-        <form action="mode.php" method="post">
-            認証コード：<input type="password" name = "pass2" value=""><br>
-            <input type="submit" value="管理者としてログイン">
-        </form>
-    </section>
-     -->
     
     
 </body>
