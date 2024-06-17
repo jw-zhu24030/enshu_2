@@ -100,9 +100,9 @@ _SQL_;
         $insert = str_replace("!lid!",$lid, $insert);
         $insert = str_replace("!time!",$time, $insert);
         if ($status == "0"){
-             $insert = str_replace("!status!","未対応", $insert);
+             $insert = str_replace("!status!","<td bgcolor='yellow'>***<b>未対応</b>***</td>", $insert);
         }else if ($status == "1"){
-             $insert = str_replace("!status!","対応済み", $insert);
+             $insert = str_replace("!status!","<td bgcolor='lightgreen'>***<b>対応済み</b>***</td>", $insert);
         }
      
         // stock.htmlに差し込む変数に格納する
@@ -133,9 +133,11 @@ function check(){
 _SQL_;
     $stmt = $dbh->prepare($sql);
     $check = -1;
-    if($input["status"] == "未対応"){
+    // if($input["status"] == "未対応"){
+    if(preg_match("[未対応]",$input["status"]) == 1){
         $check = 1;
-    }else if($input["status"] == "対応済み"){
+    // }else if($input["status"] == "対応済み"){
+    }else if(preg_match("[対応済み]",$input["status"]) == 1){
         $check = 0;
     }
     $stmt->bindParam(1,$check);

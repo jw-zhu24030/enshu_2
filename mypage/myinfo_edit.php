@@ -75,9 +75,83 @@ _SQL_;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人情報</title>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <script>
+        // Function to get a cookie by name
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        // Function to display the cookie value
+        function displayCookie() {
+            let userName = getCookie("name");
+            if (userName) {
+                document.getElementById("greeting").innerText = "こんにちは、${userName}さん。";
+            }
+        }
+        // Call the function on page load
+        window.onload = displayCookie;
+    </script>
 </head>
-<body>
+<body>    
+
+    
+
+
+<div class="topnav">
+    <!-- Placeholder for greeting -->
+    <div id="greeting" class="greeting"></div>
+    <ul>
+        <li><a href="../homepage.html">ホームページ</a></li>
+        <li><a href="../mypage/mypage.php">マイページ</a></li>
+        <li><a href="../search/search.php">チケット申し込み</a></li>
+        <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+        <li><a href="../login_register/logout.php">ログアウト</a></li>
+    </ul>
+</div>
+
+<br><br><br>
+    <div class="main">
+        <?php
+            if (!isset($_COOKIE["name"])) 
+            {echo "<b><p>ログインしてください</p></b>";
+                exit();
+            }
+
+        ?>
+    </div>
+
+
+
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
+        <ul>
+            <li><a href="../homepage.html">ホームページ</a></li>
+            <li><a href="../mypage/mypage.php">マイページ</a></li>
+            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="../login_register/logout.php">ログアウト</a></li>
+        </ul>
+    </div>
+    <br><br><br><br>
+    <div class="main">
+        <?php
+            if (!isset($_COOKIE["name"])) 
+            {echo "<b><p>ログインしてください</p></b>";
+                exit();
+
+            }
+
+        ?>
+    </div>
+    <div class="title">
     <h3>個人情報確認</h3>
+    </div>
+    <div class="main">
     <form action="myinfo.php" method="post">
         <table>
             <tr>
@@ -123,6 +197,7 @@ _SQL_;
         <input type="hidden" name="mode" value="edit">
         <input type="hidden" name="uid" value="<?php echo $result['uid'];?>">
     </form>
+    </div>
 </body>
 </html>
 

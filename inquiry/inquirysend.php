@@ -69,8 +69,56 @@ function wordProcess($input){
 
 ?>
 
-<html>
-    ありがとうございました。<br>
-    <a href="../homepage.html">ホームページに戻る</a>
-    <!-- <input type="button" value="ホームページに戻る" onclick="homepage.html"> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>問い合わせ完了</title>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <script>
+        // Function to get a cookie by name
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        // Function to display the cookie value
+        function displayCookie() {
+            let userName = getCookie("name");
+            if (userName) {
+                document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+            }
+        }
+
+        // Call the function on page load
+        window.onload = displayCookie;
+    </script>
+</head>
+<body>
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
+        <ul>
+            <li><a href="../mypage/mypage.php">マイページ</a></li>
+            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="../login_register/register.html">新規登録</a></li>
+            <li><a href="../login_register/login.html">ログイン</a></li>
+            <li><a href="../login_register/logout.php">ログアウト</a></li>
+        </ul>
+    </div>
+    <br><br><br><br>
+    <div class="title">
+    <h4>問い合わせ送信完了しました。</h4>
+    </div>
+    <div class="main">
+    <p>ありがとうございました。</p>
+    </div>
+    <div class="main">
+    <p>ご返事までしばらくお待ちください。</p>
+    </div>
+</body>
 </html>

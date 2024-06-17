@@ -1,33 +1,3 @@
-<?php
-
-if (isset($_COOKIE["name"])) {
-    // header("Location:search.html");
-    // exit();
-    // echo 'ログアウト';
-
-}else{
-    // クッキーがない場合はログインを促すメッセージを表示して終了します
-    echo "<p>ログインしてください</p>";
-    echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
-    echo ' <a href="../login_register/login.html">ログイン</a>';
-    exit();
-
-}
-
-
-function clearCookie(){
-    if (isset($_COOKIE['name'])) {
-        unset($_COOKIE['name']); 
-        setcookie('remember_user', '', -1, '/'); 
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -58,6 +28,8 @@ function clearCookie(){
     </script>
 </head>
 <body>
+
+
     <div class="topnav">
         <!-- Placeholder for greeting -->
         <div id="greeting" class="greeting"></div>
@@ -70,7 +42,22 @@ function clearCookie(){
         </ul>
     </div>
 
-    <br><br>
+    <br><br><br><br>
+
+    <div class="title">
+        <?php
+            if (!isset($_COOKIE["name"])) 
+            {
+                echo "<b><p>ログインしてください</p></b>";
+                echo "</div>";
+                echo "<div class='main'>";
+                
+                echo "<a class='button' href='../login_register/login.html'>ログイン</a>";
+                exit();
+            }
+
+        ?>
+    </div>
     <div class="searchContainer">
         <form action="../apply/apply.php" method="get"> 
         <div class="searchbyall">
@@ -149,5 +136,7 @@ function clearCookie(){
     <!-- <a href="../homepage.html">ホームページへ戻る</a> -->
     </div>
 </body>
+
+
 </html>
 

@@ -1,15 +1,4 @@
 <?php
-if (isset($_COOKIE["name"])) {
-
-}else{
-    // クッキーがない場合はログインを促すメッセージを表示して終了します
-    echo "<p>ログインしてください</p>";
-    echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
-    echo ' <a href="../login_register/login.html">ログイン</a>';
-    exit();
-
-}
-
 
 ?>
 
@@ -36,30 +25,56 @@ if (isset($_COOKIE["name"])) {
                 document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
             }
         }
-
         // Call the function on page load
         window.onload = displayCookie;
     </script>
 </head>
-<body>
-    <div class="topnav">
-        <!-- Placeholder for greeting -->
-        <div id="greeting" class="greeting"></div>
-        <ul>
-            <li><a href="mypage.php">マイページ</a></li>
-            <li><a href="../search/search.php">チケット申し込み</a></li>
-            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
-            <li><a href="../login_register/logout.php">ログアウト</a></li>
-        </ul>
-    </div>
+<body>    
+
+    
+
+
+<div class="topnav">
+    <!-- Placeholder for greeting -->
+    <div id="greeting" class="greeting"></div>
+    <ul>
+        <li><a href="../homepage.html">ホームページ</a></li>
+        <li><a href="../mypage/mypage.php">マイページ</a></li>
+        <li><a href="../search/search.php">チケット申し込み</a></li>
+        <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+        <li><a href="../login_register/logout.php">ログアウト</a></li>
+    </ul>
+</div>
+
+
     <br><br><br><br>
+
+    
+    <div class="title">
+        <?php
+            if (!isset($_COOKIE["name"])) 
+            {
+                echo "<b><p>ログインしてください</p></b>";
+                echo "</div>";
+                echo "<div class='main'>";
+                echo "<a class='button' href='../login_register/login.html'>ログイン</a>";
+                exit();
+            }
+
+        ?>
+    </div>
+
     <section>
-        <h4>個人情報管理</h4>
-        <a href="myinfo.php">個人情報編集</a>
+        <div class="title">
+        <h4>個人情報管理</h4></div>
+        <div class="main">
+        <a href="myinfo.php">個人情報編集</a></div>
     </section>
     <section>
-        <h4>抽選履歴</h4>
-        <a href="history.php">詳しいはこちら</a>
+        <div class="title">
+        <h4>抽選履歴</h4></div>
+        <div class="main">
+        <a href="history.php">詳しいはこちら</a></div>
     </section>
 
     

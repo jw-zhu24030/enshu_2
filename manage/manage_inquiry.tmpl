@@ -1,12 +1,15 @@
+<div class="main">
 <section>
+    <div class="inquiry">
     <table>
         <tr>
-            <th>No.</th>
+            <td><b>No.</b></td>
             <td>!id!</td>
         </tr>
         <tr>
-            <th>対応状況</th>
-            <td>***!status!***</td>
+            <td><b>対応状況</b></td>
+            <!-- <td>***!status!***</td> -->
+            !status!
             <td>
                 <form action="manage_inquiry.php" method="post">
                     <input type="submit" value="状態変更">
@@ -17,25 +20,28 @@
             </td>
         </tr>
         <tr>
-            <th>名前</th>
+            <td><b>名前</b></td>
             <td>!name!</td>
         </tr>
         <tr>
-            <th>メールアドレス</th>
+            <td><b>メールアドレス</b></td>
             <td>!email!</td>
         </tr>
         <tr>
-            <th>内容</th>
+            <td><b>内容</b></td>
             <td>!text!</td>
         </tr>
         <tr>
-            <th>公演番号</th>
+            <td><b>公演番号</b></td>
             <td>!lid!</td>
         </tr>
         <tr>
-            <th>問い合わせ時間</th>
+            <td><b>問い合わせ時間</b></td>
             <td>!time!</td>
         </tr>
     </table>
-    <P>----------------------------------------------<?P>
+    <br>
+    </div>
+    <!-- <P>----------------------------------------------------------------</P> -->
 </section>
+</div>

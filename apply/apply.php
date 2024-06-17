@@ -1,59 +1,35 @@
 <?php
 
-// databaseのログイン情報
-$dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
-$user = "testuser";
-$pass = "testpass";
 
-// 受け取りデータを処理する
-$origin = []; // ここに処理前のデータが入る
-$tmplurl = "";
-if(isset($_GET)||isset($_POST)){
-    $origin += $_GET;
-    $origin += $_POST;
+function error($err){
+    global $tmpl_dir;
+
+    # テンプレート読み込み
+    $conf = fopen("../error.tmpl","r") or die;
+    $size = filesize("../error.tmpl");
+    $tmpl = fread($conf,$size);
+    fclose($conf);
+
+    # 文字置き換え
+    $tmpl = str_replace("!message!",$err,$tmpl);
+    # 表示
+    echo $tmpl;
+    exit;
 }
-
-
-if (isset($_COOKIE["name"])) {
-    $tmplurl = "apply.tmpl";
-}else{
-    $tmplurl = "apply_unlogin.tmpl";
-}
-
-// 文字コードとhtmlエンティティズの処理を繰り返し行う
-foreach($origin as $key=>$value){
-    // 文字コード処理
-    $mb_code = mb_detect_encoding($value);
-    $value = mb_convert_encoding($value, "UTF-8", $mb_code);
-
-    // htmlエンティティズ処理
-    $value = htmlentities($value,ENT_QUOTES);
-
-    // 処理が終わったデータを$inputに入れなおします
-    $input[$key] = $value;
-}
-// DBに接続します
-try{
-    $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
-
-    dispaly();
-    
-
-}catch(PDOException $e){
-    echo "接続失敗．．．";
-    echo "エラー内容：".$e->getMessage();
-}
-
 
 
 function dispaly(){
     global $dbh;
     global $input;
+
+    $error_notes = "";
+
     if(!isset($input)){
         $sql = <<<_SQL_
             SELECT * FROM livelist WHERE flag = 1;
 _SQL_;
-    }elseif($input["inputsearch"] && $input["radiosearch"]){
+    }
+    elseif(isset($input["radiosearch"]) && $input["inputsearch"] && $input["radiosearch"]){
         $keyword = $input["inputsearch"];
         $type = $input["radiosearch"];
         $sql = <<<_SQL_
@@ -76,19 +52,15 @@ _SQL_;
             SELECT * FROM livelist WHERE flag = 1 and (place='$prefectures');
 _SQL_;
     }
-    // elseif($input["checkbox"]){
-        
-    //     $address = $input["date"];
-    //     var_dump($address);
-    //     exit();
-    // }
     else{
-        echo "検索条件を入力してください。<br>";
-        echo ' <a href="../homepage.html">前へ戻る</a><br>';
-        exit();
+        $error_notes.= "検索条件を入力してください。<br>";;
     }
-    // echo ($sql);
-    // echo ($dbh->query($sql));
+    
+    #エラーが存在する場合
+    if($error_notes !== "") {
+        error($error_notes);
+    }
+    
     // prepare() methodを使って、sqlの実行結果を$stmt objectに保留、
     // fetchを使って配列を取得
     $stmt = $dbh->prepare($sql);
@@ -152,5 +124,95 @@ _SQL_;
     // 全てを差し替えたデータをブラウザに表示
     echo ($top);
 }
-
 ?>
+
+<html>
+    <head>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
+        <script>
+            // Function to get a cookie by name
+            function getCookie(name) {
+                let matches = document.cookie.match(new RegExp(
+                    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                ));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            }
+    
+            // Function to display the cookie value
+            function displayCookie() {
+                let userName = getCookie("name");
+                if (userName) {
+                    document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+                }
+            }
+    
+            // Call the function on page load
+            window.onload = displayCookie;
+        </script>
+    </head>
+    <body>
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
+        <ul>
+            <li><a href="../homepage.html">ホームページ</a></li>
+            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="../login_register/register.html">新規登録</a></li>
+            <li><a href="../login_register/login.html">ログイン</a></li>
+            <li><a href="../login_register/logout.php">ログアウト</a></li>
+        </ul>
+    </div>
+    <br><br><br>
+    <div class="main">
+        <?php
+
+        // databaseのログイン情報
+        $dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
+        $user = "testuser";
+        $pass = "testpass";
+
+        // 受け取りデータを処理する
+        $origin = []; // ここに処理前のデータが入る
+        $tmplurl = "";
+        if(isset($_GET)||isset($_POST)){
+            $origin += $_GET;
+            $origin += $_POST;
+        }
+
+
+        if (isset($_COOKIE["name"])) {
+            $tmplurl = "apply.tmpl";
+        }else{
+            $tmplurl = "apply_unlogin.tmpl";
+        }
+
+        // 文字コードとhtmlエンティティズの処理を繰り返し行う
+        foreach($origin as $key=>$value){
+            // 文字コード処理
+            $mb_code = mb_detect_encoding($value);
+            $value = mb_convert_encoding($value, "UTF-8", $mb_code);
+
+            // htmlエンティティズ処理
+            $value = htmlentities($value,ENT_QUOTES);
+
+            // 処理が終わったデータを$inputに入れなおします
+            $input[$key] = $value;
+        }
+        // DBに接続します
+        try{
+            $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
+
+            dispaly();
+            
+
+        }catch(PDOException $e){
+            echo "接続失敗．．．";
+            echo "エラー内容：".$e->getMessage();
+        }
+
+
+    ?>
+    </div>
+</body>
+</html>

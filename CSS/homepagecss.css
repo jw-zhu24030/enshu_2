@@ -43,7 +43,8 @@ body {
 
 /* 鼠标移动到选项上修改背景颜色 */
 .topnav li a:hover:not(.active) {
-    background-color: #c40000;
+    background-color: #ffffff;
+    color: red;
 }
 
 .topnav .active {
@@ -109,3 +110,38 @@ body {
     justify-content: center; /* 水平居中排列元素 */
     align-items: center; /* 垂直居中元素 */
 }
+
+.main{
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.title{
+    text-align: center;
+
+}
+.inquiry table{
+    width:800px;
+    border-collapse: collapse;
+    border: solid 2px;/*表全体を線で囲う*/
+}
+.inquiry table td{
+    padding: 3px 10px;
+}
+
+.livetable table{
+    
+    border-collapse: collapse;
+    border: solid 1px;/*表全体を線で囲う*/
+}
+.livetable table th{
+    padding: 3px 10px;
+    border: solid 1px;
+    /*実線 1px 黒*/
+  }
+.livetable table td {
+    padding: 3px 10px;
+    border: dashed  1px;
+    /*実線 1px 黒*/
+  }

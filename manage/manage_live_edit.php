@@ -79,8 +79,38 @@ _SQL_;
         <head>
             <meta charset="utf-8">
             <title>公演一覧</title>
+            <link rel="stylesheet" href="../CSS/homepagecss.css">
+            <script>
+                // Function to get a cookie by name
+                function getCookie(name) {
+                    let matches = document.cookie.match(new RegExp(
+                        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                    ));
+                    return matches ? decodeURIComponent(matches[1]) : undefined;
+                }
+        
+                // Function to display the cookie value
+                function displayCookie() {
+                    let userName = getCookie("name");
+                    if (userName) {
+                        document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+                    }
+                }
+        
+                // Call the function on page load
+                window.onload = displayCookie;
+            </script>
         </head>
         <body>
+            <div class="topnav">
+                <!-- Placeholder for greeting -->
+                <div id="greeting" class="greeting"></div>
+                <ul>
+                    <li><a href="../manage/manage.php">ホームページ</a></li>
+                    <li><a href="../login_register/logout.php">ログアウト</a></li>
+                </ul>
+            </div>
+            <br><br><br>
             <section>
                 <h3>公演内容を更新</h3>
                 <form action="manage_live_edit_confirm.php" method="post">

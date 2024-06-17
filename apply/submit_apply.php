@@ -33,26 +33,26 @@ foreach($origin as $key=>$value){
     // 処理が終わったデータを$inputに入れなおします
     $input[$key] = $value;
 }
-try{
-    $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
+// try{
+//     $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
 
-    $lid = $input["lid"];
-    $uid = $input["uid"];
-    $applytime = str_replace(","," ", $input["applytime"]);
-    if (!isApplied($lid, $uid)){
-        $row = apply($lid, $uid, $applytime);
-        echo "申し込み完了<br>";
-        echo "結果が出るまでしばらくお待ちください。<br>";
-    }else{
-        echo "すでに申し込み済みの公演です。<br>";
-    }
+//     $lid = $input["lid"];
+//     $uid = $input["uid"];
+//     $applytime = str_replace(","," ", $input["applytime"]);
+//     if (!isApplied($lid, $uid)){
+//         $row = apply($lid, $uid, $applytime);
+//         echo "申し込み完了<br>";
+//         echo "結果が出るまでしばらくお待ちください。<br>";
+//     }else{
+//         echo "すでに申し込み済みの公演です。<br>";
+//     }
     
     
 
-}catch(PDOException $e){
-    echo "接続失敗．．．";
-    echo "エラー内容：".$e->getMessage();
-}
+// }catch(PDOException $e){
+//     echo "接続失敗．．．";
+//     echo "エラー内容：".$e->getMessage();
+// }
 function isApplied($lid, $uid){
     
     global $dbh;
@@ -96,8 +96,68 @@ _SQL_;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>申し込み完了</title>
-</head>
-<body>
-    <a href="../homepage.html">ホームページへ戻る</a>
+            <link rel="stylesheet" href="../CSS/homepagecss.css">
+            <script>
+                // Function to get a cookie by name
+                function getCookie(name) {
+                    let matches = document.cookie.match(new RegExp(
+                        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                    ));
+                    return matches ? decodeURIComponent(matches[1]) : undefined;
+                }
+        
+                // Function to display the cookie value
+                function displayCookie() {
+                    let userName = getCookie("name");
+                    if (userName) {
+                        document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+                    }
+                }
+        
+                // Call the function on page load
+                window.onload = displayCookie;
+            </script>
+        </head>
+        <body>
+            <div class="topnav">
+                <!-- Placeholder for greeting -->
+                <div id="greeting" class="greeting"></div>
+                <ul>
+                    <li><a href="../homepage.html">ホームページ</a></li>
+                    <li><a href="../mypage/mypage.php">マイページ</a></li>
+                    <li><a href="../search/search.php">チケット申し込み</a></li>
+                    <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+                    <li><a href="../login_register/logout.php">ログアウト</a></li>
+                </ul>
+            </div>
+            <br><br><br>
+            <div class="title">
+                <h3>申し込み完了</h3>
+            </div>
+            <div class="main">
+                <?php
+                
+                try{
+                    $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
+
+                    $lid = $input["lid"];
+                    $uid = $input["uid"];
+                    $applytime = str_replace(","," ", $input["applytime"]);
+                    if (!isApplied($lid, $uid)){
+                        $row = apply($lid, $uid, $applytime);
+                        echo "申し込み完了<br>";
+                        echo "結果が出るまでしばらくお待ちください。<br>";
+                    }else{
+                        echo "すでに申し込み済みの公演です。<br>";
+                    }
+                    
+                    
+
+                }catch(PDOException $e){
+                    echo "接続失敗．．．";
+                    echo "エラー内容：".$e->getMessage();
+                }
+                ?>
+            </div>
 </body>
 </html>

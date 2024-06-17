@@ -3,8 +3,39 @@
         <head>
             <meta charset="utf-8">
             <title>公演一覧</title>
+            <link rel="stylesheet" href="../CSS/homepagecss.css">
+            <script>
+                // Function to get a cookie by name
+                function getCookie(name) {
+                    let matches = document.cookie.match(new RegExp(
+                        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                    ));
+                    return matches ? decodeURIComponent(matches[1]) : undefined;
+                }
+        
+                // Function to display the cookie value
+                function displayCookie() {
+                    let userName = getCookie("name");
+                    if (userName) {
+                        document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+                    }
+                }
+        
+                // Call the function on page load
+                window.onload = displayCookie;
+            </script>
         </head>
         <body>
+            <div class="topnav">
+                <!-- Placeholder for greeting -->
+                <div id="greeting" class="greeting"></div>
+                <ul>
+                    <li><a href="../manage/manage.php">ホームページ</a></li>
+                    <li><a href="../login_register/logout.php">ログアウト</a></li>
+                </ul>
+            </div>
+            <br><br><br>
+            <div class="main">    
             <section>
                 <h3>新しい公演を登録</h3>
                 <form action="manage_live.php" method="post">
@@ -85,8 +116,11 @@
                     <input type="hidden" name="mode" value="register">
                 </form>
             </section>
+        </div>
+        <div class="main">
             <section>
                 <h3> 公演一覧</h3>
+                <div class="livetable">
                     <table>
                         <tr>
                             <th>番号</th>
@@ -97,14 +131,13 @@
                             <th>時間</th>
                             <th>申し込み人数</th>
                             <th>状態</th>
+                            <th colspan="3">操作</th>
                         </tr>
                         !block!
                     
                     </table>
+                </div>
             </section>
-            <section>
-                <a href="manage.php">ホームページに戻る</a>
-            </section>
-            
+        </div>
         </body>
     </html>

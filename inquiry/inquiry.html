@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>問い合わせ</title>    <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <title>問い合わせ</title>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
     <script>
         // Function to get a cookie by name
         function getCookie(name) {
@@ -30,15 +31,15 @@
         <!-- Placeholder for greeting -->
         <div id="greeting" class="greeting"></div>
         <ul>
-            <li><a href="../mypage/mypage.php">マイページ</a></li>
-            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../homepage.html">ホームページ</a></li>
             <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
-            <li><a href="../login_register/register.html">新規登録</a></li>
-            <li><a href="../login_register/login.html">ログイン</a></li>
-            <li><a href="../login_register/logout.php">ログアウト</a></li>
         </ul>
     </div>
-    <br><br><br><br>
+    <br><br><br>
+    <div class="title">
+        <h4>問い合わせ</h4>
+    </div>
+    <div class="main">
     <form action="inquiry.php" method="post">
         <table>
             <table>
@@ -59,12 +60,12 @@
                   <td><textarea name="text" id="" cols="40" rows="10"></textarea></td>
                 </tr>
                 <tr>
-                    <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
+                    <td></td>
                     <td><input type="submit" value="送信"></td>
                 </tr>
             </table>
         </table>
     </form>
-    
+</div>
 </body>
 </html>

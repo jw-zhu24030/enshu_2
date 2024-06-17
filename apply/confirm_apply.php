@@ -88,9 +88,43 @@ function display(){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>申し込み確認</title>
-</head>
-<body>
-    <h3>以下の公演を申し込みしますか？</h3>
+            <link rel="stylesheet" href="../CSS/homepagecss.css">
+            <script>
+                // Function to get a cookie by name
+                function getCookie(name) {
+                    let matches = document.cookie.match(new RegExp(
+                        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                    ));
+                    return matches ? decodeURIComponent(matches[1]) : undefined;
+                }
+        
+                // Function to display the cookie value
+                function displayCookie() {
+                    let userName = getCookie("name");
+                    if (userName) {
+                        document.getElementById("greeting").innerText = `こんにちは、${userName}さん。`;
+                    }
+                }
+        
+                // Call the function on page load
+                window.onload = displayCookie;
+            </script>
+        </head>
+        <body>
+            <div class="topnav">
+                <!-- Placeholder for greeting -->
+                <div id="greeting" class="greeting"></div>
+                <ul>
+                    <li><a href="../homepage.html">ホームページ</a></li>
+                    <li><a href="../search/search.php">チケット申し込み</a></li>
+                    <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+                    <li><a href="../login_register/logout.php">ログアウト</a></li>
+                </ul>
+            </div>
+            <br><br><br>
+            <div class="title">
+    <h3>以下の公演を申し込みしますか？</h3></div>
+                <div class="main">
     <table>
         <tr>
             <td>公演番号</td>
@@ -132,7 +166,7 @@ function display(){
             </td>
         </tr>
     </table>
-    
+                </div>
 
 
 </body>

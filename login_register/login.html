@@ -4,11 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン</title>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
 </head>
 <body>
+    
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
+        <ul>
+            <li><a href="../mypage/mypage.php">マイページ</a></li>
+            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="../login_register/register.html">新規登録</a></li>
+            <li><a href="../login_register/login.html">ログイン</a></li>
+            <li><a href="../login_register/logout.php">ログアウト</a></li>
+        </ul>
+    </div>
+    <br><br><br><br>
     <section>
+        <h3 class="title">ログイン</h3>
         <div class="loginContainer">
-        <h3>ログイン</h3>
         <form action="login.php" method="post">
             <table class="login">
                 <tr>
@@ -20,7 +35,9 @@
                     <td><input type="password" name = "pass" value=""></td>
                 </tr>
                 <tr>
-                    <td><input type="button" value="前画面に戻る" onclick="history.back()"></td>
+                    <td>
+                        <!-- <input type="button" value="ホームページに戻る" onclick="location.href='../homepage.html'"> -->
+                    </td>
                     <td><input type="submit" name="submit1" value="ログイン"></td>
                 </tr>
             </table>

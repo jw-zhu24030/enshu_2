@@ -4,40 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録</title>
+    <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <script>
+        // Function to get a cookie by name
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        // Function to display the cookie value
+        function displayCookie() {
+            let userName = getCookie("name");
+            if (userName) {
+                document.getElementById("greeting").innerText = `ログインしてください`;
+            }
+        }
+
+        // Call the function on page load
+        window.onload = displayCookie;
+    </script>
 </head>
 <body>
-    <h3>新規登録</h3>
-    <form action="register.php" method="post">
-        <div class="loginContainer">
+    <div class="topnav">
+        <!-- Placeholder for greeting -->
+        <div id="greeting" class="greeting"></div>
+        <ul>
+            <li><a href="../homepage.html">ホームページ</a></li>
+            <li><a href="../search/search.php">チケット申し込み</a></li>
+            <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
+            <li><a href="../login_register/register.html">新規登録</a></li>
+            <li><a href="../login_register/login.html">ログイン</a></li>
+            <li><a href="../login_register/logout.php">ログアウト</a></li>
+        </ul>
+    </div>
+    <br><br><br>
+    
+    <!-- Placeholder for greeting -->
+    <div id="greeting"></div>
+    <div class="title">
+        <h3>新規登録</h3>
+    </div>
+    <div class="main">
+        <form action="register.php" method="post">
+            <div class="loginContainer">
 
-        <table class="register">
-            <tr>
-                <td>ID(メールアドレス)</td>
-                <td><input type="text" value="" name="mail" id="mail"></td>
-            </tr>
-            <tr>
-                <td>名前</td>
-                <td><input type="text" value="" name="name" id="name"></td>
-            </tr>
-            <tr>
-                <td>パスワード：</td>
-                <td><input type="password" value="" name="pass" id="pass"></td>
-            </tr>
-            <tr>
-                <td>パスワード確認</td>
-                <td><input type="password" value="" name="pass1" id="pass1"></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="button" value="前画面に戻る" onclick="history.back()">
-                </td>
-                <td>
-                    <input type="submit" value="送信" >
-                </td>
-            </tr>
-        </table>
-        </div>
+            <table class="register">
+                <tr>
+                    <td>ID(メールアドレス)</td>
+                    <td><input type="text" value="" name="mail" id="mail"></td>
+                </tr>
+                <tr>
+                    <td>名前</td>
+                    <td><input type="text" value="" name="name" id="name"></td>
+                </tr>
+                <tr>
+                    <td>パスワード：</td>
+                    <td><input type="password" value="" name="pass" id="pass"></td>
+                </tr>
+                <tr>
+                    <td>パスワード確認</td>
+                    <td><input type="password" value="" name="pass1" id="pass1"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="ホームページに戻る" onclick="location.href='../homepage.html'">
+                    </td>
+                    <td>
+                        <input type="submit" value="送信" >
+                    </td>
+                </tr>
+            </table>
+            </div>
 
-    </form>
+        </form>
+    </div>
 </body>
 </html>

@@ -189,7 +189,7 @@ function wordProcess($input){
     </div>
     <br><br><br><br>
     <div class="searchContainer">
-    <form action="apply/apply.php" method="get" class="searchbykeywords">
+    <form action="../apply/apply.php" method="get" class="searchbykeywords">
         
     <div class="searchbykeywords">
         <h4>番号またはキーワードより探す</h4>
