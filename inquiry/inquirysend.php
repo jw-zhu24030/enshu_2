@@ -102,7 +102,7 @@ function wordProcess($input){
         <!-- Placeholder for greeting -->
         <div id="greeting" class="greeting"></div>
         <ul>
-            <li><a href="../mypage/mypage.php">マイページ</a></li>
+            <li><a href="../homepage.html">ホームページ</a></li>
             <li><a href="../search/search.php">チケット申し込み</a></li>
             <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
             <li><a href="../login_register/register.html">新規登録</a></li>

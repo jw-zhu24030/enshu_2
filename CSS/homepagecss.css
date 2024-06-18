@@ -52,6 +52,17 @@ body {
     color: red;
 }
 
+div.greeting1 {
+    color: black;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: center; /* 水平居中排列元素 */
+    align-items: center; /* 垂直居中元素 */
+    font-size: large;
+    font-weight: bolder;
+    
+}
+
 .searchContainer {
     display: flex;
     justify-content: center; /* 水平居中排列元素 */
@@ -87,7 +98,7 @@ body {
 }
 
 .searchbykeywords input[type="submit"], 
-.searchbyfilter input[type="submit"] {
+.searchbyfilter input[type="submit"]{
     padding: 10px 20px;
     background-color: red;
     color: white;
@@ -117,6 +128,20 @@ body {
     justify-content: center;
     align-items: center; 
 }
+.main a{
+	width: 240px;
+	height: 30px;
+	
+	text-align: center; /*--左右中央--*/
+	line-height: 30px; /*--上下中央--*/
+	display: block; /*--blockを追加--*/
+	text-decoration: none; /*-- 下線を消す--*/
+    
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 .title{
     text-align: center;
 
@@ -145,3 +170,6 @@ body {
     border: dashed  1px;
     /*実線 1px 黒*/
   }
+p.msg {
+     color:red; 
+    }

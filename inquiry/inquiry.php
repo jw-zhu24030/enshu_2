@@ -9,6 +9,30 @@ $liveno = $_POST["liveno"];
 $inputname = wordProcess($inputname);
 $inputmail = wordProcess($inputmail);
 
+
+
+    
+$error_notes = "";
+if($inputname === ""){
+  $error_notes.="・名前が未入力です。<br>";
+}
+if($inputmail === ""){
+  $error_notes.="・メールアドレスが未入力です。<br>";
+}
+if($inputtext === ""){
+  $error_notes.="・問い合わせ内容が未入力です。<br>";
+}
+if (!filter_var($inputmail, FILTER_VALIDATE_EMAIL)) {
+  $error_notes.="・不正のメールアドレスです。<br>";
+}
+#エラーが存在する場合
+if($error_notes !== "") {
+    error($error_notes);
+    exit();
+}
+
+
+
 function error($err){
     global $tmpl_dir;
   
@@ -74,7 +98,7 @@ function wordProcess($input){
         <!-- Placeholder for greeting -->
         <div id="greeting" class="greeting"></div>
         <ul>
-            <li><a href="../mypage/mypage.php">マイページ</a></li>
+            <li><a href="../homepage.html">ホームページ</a></li>
             <li><a href="../search/search.php">チケット申し込み</a></li>
             <li><a href="../inquiry/inquiry.html">問い合わせ</a></li>
             <li><a href="../login_register/register.html">新規登録</a></li>
@@ -84,27 +108,7 @@ function wordProcess($input){
     </div>
     <br><br><br><br>
     <div class="main">
-    <?php
-    
-$error_notes = "";
-if($inputname === ""){
-  $error_notes.="・名前が未入力です。<br>";
-}
-if($inputmail === ""){
-  $error_notes.="・メールアドレスが未入力です。<br>";
-}
-if($inputtext === ""){
-  $error_notes.="・問い合わせ内容が未入力です。<br>";
-}
-if (!filter_var($inputmail, FILTER_VALIDATE_EMAIL)) {
-  $error_notes.="・不正のメールアドレスです。<br>";
-}
-#エラーが存在する場合
-if($error_notes !== "") {
-    error($error_notes);
-}
-
-    ?></div>
+    </div>
         <div class="title">
         <h3>お問い合わせフォーム - 確認画面</h3>
         </div>

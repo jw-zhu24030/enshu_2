@@ -8,6 +8,13 @@ function clearCookie(){
         return true;
     } else {
         echo "すでにログアウトされました";
+
+        
+        echo "<br><br><br>";
+        echo "<div class='main'>";
+        echo "<a class='button' href='../login_register/login.html'>ログイン</a>";
+        echo "</div>";
+
         return false;
         
     }

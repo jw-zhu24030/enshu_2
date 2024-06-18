@@ -68,13 +68,14 @@
         <div class="title">
         <h4>個人情報管理</h4></div>
         <div class="main">
-        <a href="myinfo.php">個人情報編集</a></div>
+        <a href="myinfo.php" class="link">個人情報編集</a>
+        </div>
     </section>
     <section>
         <div class="title">
         <h4>抽選履歴</h4></div>
         <div class="main">
-        <a href="history.php">詳しいはこちら</a></div>
+        <a href="history.php" class="link">詳しいはこちら</a></div>
     </section>
 
     

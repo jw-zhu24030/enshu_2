@@ -18,18 +18,18 @@
         function displayCookie() {
             let userName = getCookie("name");
             if (userName) {
-                document.getElementById("greeting").innerText = `ログインしてください`;
+                document.getElementById("greeting1").innerText = `こんにちは、${userName}さん。\nすでにログインしました。`;
+                // Hide the element with id 'myElement'
+                document.getElementById("myElement").style.display = 'none';
             }
+            
         }
-
         // Call the function on page load
         window.onload = displayCookie;
     </script>
 </head>
 <body>
     <div class="topnav">
-        <!-- Placeholder for greeting -->
-        <div id="greeting" class="greeting"></div>
         <ul>
             <li><a href="../homepage.html">ホームページ</a></li>
             <li><a href="../search/search.php">チケット申し込み</a></li>
@@ -39,10 +39,11 @@
             <li><a href="../login_register/logout.php">ログアウト</a></li>
         </ul>
     </div>
-    <br><br><br>
+    <br><br><br><br>
     
     <!-- Placeholder for greeting -->
-    <div id="greeting"></div>
+    <div id="greeting1" class="greeting1"></div>
+    <section id="myElement">
     <div class="title">
         <h3>新規登録</h3>
     </div>
@@ -80,5 +81,6 @@
 
         </form>
     </div>
+    </section>
 </body>
 </html>

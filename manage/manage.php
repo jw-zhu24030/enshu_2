@@ -52,7 +52,7 @@ if (isset($_COOKIE["name"])) {
             </ul>
         </div>
         <br><br><br>
-        
+        <br><br><br>
         <div class="main">
             <table>
                 <tr>
@@ -66,6 +66,8 @@ if (isset($_COOKIE["name"])) {
                         場所管理
                     </td>
                 </tr> -->
+                <br><br><br><br><br><br>
+                <tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>
                 <tr>
                     <td>
                         <a href="manage_inquiry.php"><b>問い合わせ管理</b></a>

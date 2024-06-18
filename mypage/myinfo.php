@@ -28,6 +28,59 @@ foreach($origin as $key=>$value){
     // 処理が終わったデータを$inputに入れなおします
     $input[$key] = $value;
 }
+
+
+if (!isset($_COOKIE["name"])) 
+{echo "<b><p>ログインしてください</p></b>";
+    exit();
+
+}
+
+// DBに接続します
+try{
+$dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
+
+
+if(isset($input["mode"]) && $input["mode"] == "edit"){
+$error_notes = "";
+if($input['id'] === ""){
+$error_notes.="・メールアドレスが未入力です。<br>";
+}
+if($input['name'] === ""){
+$error_notes.="・名前が未入力です。<br>";
+}
+if($input['pwd'] === "" || $input['pwd1'] === "" ){
+$error_notes.="・パスワードが未入力です。<br>";
+}
+if($input['pwd'] != $input['pwd1']){
+$error_notes.="・二回入力されたパスワードは間違いました。<br>";
+}
+if(($input['name']!="" && $input['pwd']!="") && isUser($dbh,$input['id'],$uid)){
+$error_notes.="・既存のユーザーメールアドレスです。<br>";
+}
+#エラーが存在する場合
+if($error_notes !== "") {
+error($error_notes);
+}else{
+
+edit();
+}
+}
+
+$result =  display();
+$mail = $result['id'];
+$name = $result['name'];
+$pwd = $result['pwd'];
+$pwdstars = str_repeat("*", strlen($pwd));
+
+
+}catch(PDOException $e){
+echo "接続失敗．．．";
+echo "エラー内容：".$e->getMessage();
+}
+
+
+
 function error($err){
     global $tmpl_dir;
   
@@ -151,57 +204,6 @@ _SQL_;
     </div>
 
     <div class="main">
-        <?php
-            if (!isset($_COOKIE["name"])) 
-            {echo "<b><p>ログインしてください</p></b>";
-                exit();
-
-            }
-
-// DBに接続します
-try{
-    $dbh = new PDO($dsn, $user, $pass); // PDO: PHP database object, PHP自带函数
-    
-
-    if(isset($input["mode"]) && $input["mode"] == "edit"){
-        $error_notes = "";
-        if($input['id'] === ""){
-        $error_notes.="・メールアドレスが未入力です。<br>";
-        }
-        if($input['name'] === ""){
-        $error_notes.="・名前が未入力です。<br>";
-        }
-        if($input['pwd'] === "" || $input['pwd1'] === "" ){
-        $error_notes.="・パスワードが未入力です。<br>";
-        }
-        if($input['pwd'] != $input['pwd1']){
-        $error_notes.="・二回入力されたパスワードは間違いました。<br>";
-        }
-        if(($input['name']!="" && $input['pwd']!="") && isUser($dbh,$input['id'],$uid)){
-        $error_notes.="・既存のユーザーメールアドレスです。<br>";
-        }
-        #エラーが存在する場合
-        if($error_notes !== "") {
-        error($error_notes);
-        }else{
-
-        edit();
-        }
-    }
-
-    $result =  display();
-    $mail = $result['id'];
-    $name = $result['name'];
-    $pwd = $result['pwd'];
-    $pwdstars = str_repeat("*", strlen($pwd));
-
-
-}catch(PDOException $e){
-    echo "接続失敗．．．";
-    echo "エラー内容：".$e->getMessage();
-}
-
-        ?>
     </div>
     <div class="title">
     <h3>個人情報確認</h3>
@@ -236,7 +238,7 @@ try{
                 </td>
             </tr>
             <tr>
-                <td><input type="button" value="ホームページに戻る" onclick="location.href='../homepage.html'"></td>
+                <td><input type="button" value="マイページに戻る" onclick="location.href='mypage.php'"></td>
                 <td><input type="submit" value="編集"></td>
             </tr>
         </table>

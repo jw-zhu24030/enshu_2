@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン</title>
     <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <script>
+        // Function to get a cookie by name
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        // Function to display the cookie value
+        function displayCookie() {
+            let userName = getCookie("name");
+            if (userName) {
+                document.getElementById("greeting1").innerText = `こんにちは、${userName}さん。\nすでにログインしました。`;
+                // Hide the element with id 'myElement'
+                document.getElementById("myElement").style.display = 'none';
+            }
+            
+        }
+
+        // Call the function on page load
+        window.onload = displayCookie;
+        
+
+    </script>
 </head>
 <body>
     
     <div class="topnav">
-        <!-- Placeholder for greeting -->
-        <div id="greeting" class="greeting"></div>
         <ul>
             <li><a href="../mypage/mypage.php">マイページ</a></li>
             <li><a href="../search/search.php">チケット申し込み</a></li>
@@ -21,9 +44,13 @@
         </ul>
     </div>
     <br><br><br><br>
-    <section>
-        <h3 class="title">ログイン</h3>
-        <div class="loginContainer">
+    <!-- Placeholder for greeting -->
+    <div id="greeting1" class="greeting1"></div>
+    <section id="myElement">
+        <div class="title">
+        <h3 >ログイン</h3>
+        </div>
+        <div class="loginContainer" >
         <form action="login.php" method="post">
             <table class="login">
                 <tr>
@@ -41,9 +68,9 @@
                     <td><input type="submit" name="submit1" value="ログイン"></td>
                 </tr>
             </table>
-            </div>
             
         </form>
+    </div>
     </section>
     
     

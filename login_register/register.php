@@ -35,8 +35,53 @@ $inputmail = $input["mail"];
 $inputname = $input["name"];
 $inputpass = $input["pass"];
 $checkpass = $input["pass1"];
+   
 
 
+try {
+  // DBに接続します
+  $dbh = new PDO($dsn, $user, $pass);
+    
+
+  $error_notes = "";
+  if($inputname === ""){
+    $error_notes.="・名前が未入力です。<br>";
+  }
+  if($inputpass === "" || $checkpass === "" ){
+    $error_notes.="・パスワードが未入力です。<br>";
+  }
+  if($inputpass != $checkpass){
+    $error_notes.="・二回入力されたパスワードは間違いました。<br>";
+  }
+  if(($inputname!="" && $inputpass!="") && isUser($dbh,$inputmail)){
+    $error_notes.="・既存のユーザーメールアドレスです。<br>";
+  }
+  if (!filter_var($inputmail, FILTER_VALIDATE_EMAIL)) {
+    $error_notes.="・不正のメールアドレスです。<br>";
+  }
+  #エラーが存在する場合
+  if($error_notes !== "") {
+    error($error_notes);
+  }else{
+    register($dbh,$input);
+    echo"<br><br><br><br>";
+    echo"<div class='title'><h3>登録成功。</h3></div>";
+    echo "<div class='main'>こんにちは、{$input['name']}さん。</div>";
+    echo"<br><br>";
+    echo "<div class='main'>";
+    echo "<a class='button' href='../login_register/login.html'>ログイン</a>";
+    echo "</div>";
+
+}
+
+
+} catch (PDOException $e) {
+  echo "接続失敗．．．";
+  echo "エラー内容：" . $e->getMessage();
+}
+
+
+      
 
 
 
@@ -135,47 +180,7 @@ function clearCookie(){
 
     <br><br><br>
     <div class="main">
-        <?php
-            
 
-
-try {
-  // DBに接続します
-  $dbh = new PDO($dsn, $user, $pass);
-    
-
-  $error_notes = "";
-  if($inputname === ""){
-    $error_notes.="・名前が未入力です。<br>";
-  }
-  if($inputpass === "" || $checkpass === "" ){
-    $error_notes.="・パスワードが未入力です。<br>";
-  }
-  if($inputpass != $checkpass){
-    $error_notes.="・二回入力されたパスワードは間違いました。<br>";
-  }
-  if(($inputname!="" && $inputpass!="") && isUser($dbh,$inputmail)){
-    $error_notes.="・既存のユーザーメールアドレスです。<br>";
-  }
-  if (!filter_var($inputmail, FILTER_VALIDATE_EMAIL)) {
-    $error_notes.="・不正のメールアドレスです。<br>";
-  }
-  #エラーが存在する場合
-  if($error_notes !== "") {
-    error($error_notes);
-  }else{
-    register($dbh,$input);
-    echo "登録成功。<br>こんにちは、{$input['name']}さん。";
-}
-
-
-} catch (PDOException $e) {
-  echo "接続失敗．．．";
-  echo "エラー内容：" . $e->getMessage();
-}
-
-
-        ?>
     </div>
     <?php
     
