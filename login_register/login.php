@@ -25,12 +25,14 @@ foreach($origin as $key=>$value){
     // 処理が終わったデータを$inputに入れなおします
     $input[$key] = $value;
 }
-
+// echo"<br><br><br><br><br><br><br><br>";
+// var_dump($input);
 $inputmail = $input["mail"];
-$inputpass = $input["pass"];
+// $inputpass = $input["pass"];
+$inputpass = $input['hashedPassword'];
 
 $inputmail = wordProcess($inputmail);
-$inputpass = wordProcess($inputpass);
+// $inputpass = wordProcess($inputpass);
 // setcookie("mail", $inputmail, time()+600);
 
 

@@ -33,8 +33,13 @@ foreach($origin as $key=>$value){
 
 $inputmail = $input["mail"];
 $inputname = $input["name"];
-$inputpass = $input["pass"];
-$checkpass = $input["pass1"];
+// $inputpass = $input["pass"];
+// $checkpass = $input["pass1"];
+
+// echo"<br><br><br><br><br><br><br><br><br><br>";
+// var_dump($input);
+$inputpass = $input['hashedPassword'];
+$checkpass = $input['hashedPassword1'];
    
 
 
@@ -124,7 +129,8 @@ _SQL_;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(1,$input["mail"]);
     $stmt->bindParam(2,$input["name"]);
-    $stmt->bindParam(3,$input["pass"]);
+    // $stmt->bindParam(3,$input["pass"]);
+    $stmt->bindParam(3,$input["hashedPassword"]);
     $stmt->execute();
 }
 

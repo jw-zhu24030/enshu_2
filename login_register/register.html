@@ -5,7 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録</title>
     <link rel="stylesheet" href="../CSS/homepagecss.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
+
+        // Function to hash the password before submitting the form
+        function hashPassword() {
+            let passwordField = document.getElementById("pass");
+            let hashedPasswordField = document.getElementById("hashedPassword");
+
+            let password = passwordField.value;
+            let hashedPassword = CryptoJS.SHA256(password).toString();
+
+            hashedPasswordField.value = hashedPassword;
+            passwordField.value = "";  // Clear the plain text password
+
+            // confirm pass
+            let confirmedPasswordField = document.getElementById("pass1");
+            let hashedConfirmedField = document.getElementById("hashedPassword1");
+
+            let confirmedPass = confirmedPasswordField.value;
+            let hashedConfirmedPass = CryptoJS.SHA256(confirmedPass).toString();
+
+            hashedConfirmedField.value = hashedConfirmedPass;
+            confirmedPasswordField.value = "";  // Clear the plain text password
+            return true;  // Allow the form to be submitted
+        }
+
+
         // Function to get a cookie by name
         function getCookie(name) {
             let matches = document.cookie.match(new RegExp(
@@ -48,7 +75,7 @@
         <h3>新規登録</h3>
     </div>
     <div class="main">
-        <form action="register.php" method="post">
+        <form action="register.php" method="post" onsubmit="return hashPassword();">
             <div class="loginContainer">
 
             <table class="register">
@@ -63,10 +90,12 @@
                 <tr>
                     <td>パスワード：</td>
                     <td><input type="password" value="" name="pass" id="pass"></td>
+                    <td><input type="hidden" id="hashedPassword" name="hashedPassword" value=""></td>
                 </tr>
                 <tr>
                     <td>パスワード確認</td>
                     <td><input type="password" value="" name="pass1" id="pass1"></td>
+                    <td><input type="hidden" id="hashedPassword1" name="hashedPassword1" value=""></td>
                 </tr>
                 <tr>
                     <td>

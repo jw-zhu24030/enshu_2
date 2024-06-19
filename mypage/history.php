@@ -2,14 +2,15 @@
 
 if (isset($_COOKIE['uid'])){
     $uid = $_COOKIE['uid'];
-}else{
-    // クッキーがない場合はログインを促すメッセージを表示して終了します
-    echo "<p>ログインしてください</p>";
-    echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
-    echo ' <a href="../login_register/login.html">ログイン</a>';
-    exit();
-
-} 
+}
+// else{
+//     // クッキーがない場合はログインを促すメッセージを表示して終了します
+//     echo "<p>ログインしてください</p>";
+//     echo ' <a href="../homepage.html">ホームページへ戻る</a><br>';
+//     echo ' <a href="../login_register/login.html">ログイン</a>';
+//     exit();
+// 
+// } 
 // databaseのログイン情報
 $dsn = "mysql:host=localhost;dbname=ticketsite;charset=utf8";
 $user = "testuser";

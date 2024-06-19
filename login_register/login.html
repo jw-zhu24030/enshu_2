@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン</title>
     <link rel="stylesheet" href="../CSS/homepagecss.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
+    
+        // Function to hash the password before submitting the form
+        function hashPassword() {
+            let passwordField = document.getElementById("pass");
+            let hashedPasswordField = document.getElementById("hashedPassword");
+
+            let password = passwordField.value;
+            let hashedPassword = CryptoJS.SHA256(password).toString();
+
+            hashedPasswordField.value = hashedPassword;
+            passwordField.value = "";  // Clear the plain text password
+
+            return true;  // Allow the form to be submitted
+        }
+
+
+    
+
         // Function to get a cookie by name
         function getCookie(name) {
             let matches = document.cookie.match(new RegExp(
@@ -51,7 +70,7 @@
         <h3 >ログイン</h3>
         </div>
         <div class="loginContainer" >
-        <form action="login.php" method="post">
+        <form action="login.php" method="post"  onsubmit="return hashPassword();">
             <table class="login">
                 <tr>
                     <td>ID(メールアドレス)</td>
@@ -59,7 +78,8 @@
                 </tr>
                 <tr>
                     <td>パスワード</td>
-                    <td><input type="password" name = "pass" value=""></td>
+                    <td><input type="password" name = "pass" id="pass" value="" ></td>
+                    <td><input type="hidden" id="hashedPassword" name="hashedPassword" value=""></td>
                 </tr>
                 <tr>
                     <td>

@@ -1,7 +1,9 @@
 <?php
 
+if(isset($_COOKIE['uid'])){
+    $uid = $_COOKIE['uid'];
 
-$uid = $_COOKIE['uid'];
+    
 // var_dump($_COOKIE);
 
 // databaseのログイン情報
@@ -30,11 +32,6 @@ foreach($origin as $key=>$value){
 }
 
 
-if (!isset($_COOKIE["name"])) 
-{echo "<b><p>ログインしてください</p></b>";
-    exit();
-
-}
 
 // DBに接続します
 try{
@@ -71,7 +68,8 @@ $result =  display();
 $mail = $result['id'];
 $name = $result['name'];
 $pwd = $result['pwd'];
-$pwdstars = str_repeat("*", strlen($pwd));
+// $pwdstars = str_repeat("*", strlen($pwd));
+$pwdstars = "*******";
 
 
 }catch(PDOException $e){
@@ -79,6 +77,7 @@ echo "接続失敗．．．";
 echo "エラー内容：".$e->getMessage();
 }
 
+}
 
 
 function error($err){
@@ -196,7 +195,11 @@ _SQL_;
     <div class="main">
         <?php
             if (!isset($_COOKIE["name"])) 
-            {echo "<b><p>ログインしてください</p></b>";
+            {
+                echo "<b><p>ログインしてください</p></b>";
+                echo "</div>";
+                echo "<div class='main'>";
+                echo "<a class='button' href='../login_register/login.html'>ログイン</a>";
                 exit();
             }
 
